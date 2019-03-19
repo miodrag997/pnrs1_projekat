@@ -3,9 +3,17 @@
     <string name="appName">PantelaWeather</string>
     <string name="locationInsert">Lokacija za prikaz vremenske prognoze:</string>
     <string name="mainActivityButtonText">Prikazi</string>
-    <string name="location">Lokacija: </string>
-    <string name="day">Dan: Subota</string>
-    <string name="temperature">Temperatura</string>
-    <string name="sunRiseSet">Izlazak i zalazak sunca</string>
-    <string name="wind">Vetar</string>
+    <string name="locationActivityDetails">Lokacija: </string>
+    <string name="dayActivityDetails">Dan: Subota</string>
+    <string name="temperatureButton">Temperatura</string>
+    <string name="sunRiseSetButton">Izlazak i zalazak sunca</string>
+    <string name="windButton">Vetar</string>
+    <string name="unitActivityDetails">Jedinica:</string>
+    <string name="pressureActivityDetails">Pritisak:</string>
+    <string name="temperatureActivityDetails">Temperatura:</string>
+    <string name="windDirectionActivityDetails">Pravac: N</string>
+    <string name="windSpeedActivityDetails">Brzina vetra: 4.1</string>
+    <string name="sunsetTimeActivityDetails">Zalazak sunca:</string>
+    <string name="sunriseTimeActivityDetails">Izlazak sunca:</string>
+    <string name="airHumidityActivityDetails">Vlaznost vazduha:</string>
 </resources>
