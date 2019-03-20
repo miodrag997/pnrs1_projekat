@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -28,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
     Button temperatureButton, sunRiseSetButton, windButton;
     Spinner unitForDegrees;
+    TextView temperature, pressure, hummidity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,51 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         sunRiseSetButton.setOnClickListener(this);
         windButton.setOnClickListener(this);
 
+        temperature = findViewById(R.id.temperature);
+
         unitForDegrees = findViewById(R.id.spinnerJedinica);
         String[] items = new String[]{"°C", "°F"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         unitForDegrees.setAdapter(adapter);
 
+        unitForDegrees.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            private String selecteditem, previousItem = null;
+            private double degrees = 0;
+            @Override
+            public void onItemSelected(AdapterView adapter, View v, int i, long lng) {
+
+                selecteditem =  adapter.getItemAtPosition(i).toString();
+                //or this can be also right: selecteditem = level[i];
+                if(selecteditem == "°C" && previousItem == "°F"){
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-2));
+                    degrees = (degrees-32)*5/9;
+                    degrees = round(degrees, 2);
+                    temperature.setText(String.valueOf(degrees) + "°C");
+                    previousItem = "°C";
+                }
+                if(selecteditem == "°F"){
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-2));
+                    degrees = degrees*9/5+32;
+                    degrees = round(degrees, 2);
+                    temperature.setText(String.valueOf(degrees) + "°F");
+                    previousItem = "°F";
+                }
+            }
+
+            private double round(double value, int places) {
+                if (places < 0) throw new IllegalArgumentException();
+
+                long factor = (long) Math.pow(10, places);
+                value = value * factor;
+                long tmp = Math.round(value);
+                return (double) tmp / factor;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
     }
 
     @Override

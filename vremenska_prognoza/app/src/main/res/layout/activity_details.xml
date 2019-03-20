@@ -88,12 +88,22 @@
                     android:src="@drawable/sun"
                     android:layout_gravity="left"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:id="@+id/temperatura"
-                    android:text="@string/temperatureActivityDetails"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/temperaturaTextView"
+                        android:text="@string/temperatureActivityDetails"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:id="@+id/temperature"
+                        android:text="@string/temperature"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
