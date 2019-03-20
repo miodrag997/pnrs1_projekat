@@ -7,19 +7,32 @@
     tools:context=".DetailsActivity"
     android:orientation="vertical"
     android:weightSum="10">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:weightSum="2"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text="@string/locationActivityDetails"
-        android:id="@+id/location"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:id="@+id/day"
-        android:text="@string/dayActivityDetails"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/locationActivityDetails"
+            android:id="@+id/location"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/day"
+            android:text="@string/dayActivityDetails"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -50,36 +63,47 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:id="@+id/frameLayout">
+        android:id="@+id/frameLayout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="2"
             android:id="@+id/temperatureLayout">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="left"
+                android:weightSum="6">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/sun"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:src="@drawable/sun"
+                    android:layout_gravity="left"/>
+
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:id="@+id/temperatura"
                     android:text="@string/temperatureActivityDetails"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:id="@+id/pritisak"
                     android:text="@string/pressureActivityDetails"/>
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:id="@+id/vlaznostVazduha"
                     android:text="@string/airHumidityActivityDetails"/>
 
@@ -94,6 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center"
                     android:layout_marginTop="@android:dimen/app_icon_size">
 
                     <TextView
@@ -105,7 +130,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spinnerJedinica"
-                        android:background="@color/colorAccent"
                         android:spinnerMode="dropdown">
 
                     </Spinner>

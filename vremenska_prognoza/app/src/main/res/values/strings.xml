@@ -4,16 +4,16 @@
     <string name="locationInsert">Lokacija za prikaz vremenske prognoze:</string>
     <string name="mainActivityButtonText">Prikazi</string>
     <string name="locationActivityDetails">Lokacija: </string>
-    <string name="dayActivityDetails">Dan: Subota</string>
+    <string name="dayActivityDetails">Dan: </string>
     <string name="temperatureButton">Temperatura</string>
     <string name="sunRiseSetButton">Izlazak i zalazak sunca</string>
     <string name="windButton">Vetar</string>
     <string name="unitActivityDetails">Jedinica:</string>
-    <string name="pressureActivityDetails">Pritisak:</string>
-    <string name="temperatureActivityDetails">Temperatura:</string>
+    <string name="temperatureActivityDetails">Temperatura: 11</string>
+    <string name="pressureActivityDetails">Pritisak: 1000</string>
+    <string name="airHumidityActivityDetails">Vlaznost vazduha: 44</string>
     <string name="windDirectionActivityDetails">Pravac: N</string>
     <string name="windSpeedActivityDetails">Brzina vetra: 4.1</string>
-    <string name="sunsetTimeActivityDetails">Zalazak sunca:</string>
-    <string name="sunriseTimeActivityDetails">Izlazak sunca:</string>
-    <string name="airHumidityActivityDetails">Vlaznost vazduha:</string>
+    <string name="sunsetTimeActivityDetails">Zalazak sunca: 17:45</string>
+    <string name="sunriseTimeActivityDetails">Izlazak sunca: 06:47</string>
 </resources>

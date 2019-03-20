@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity{
                 Bundle b = new Bundle();
                 b.putString("location", myLocation.getText().toString());
                 myIntent.putExtras(b);
+                myLocation.setText("");
                 startActivity(myIntent);
 
             }
