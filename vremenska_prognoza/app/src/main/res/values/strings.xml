@@ -2,7 +2,7 @@
     <string name="app_name">PantelaWeather</string>
     <string name="appName">PantelaWeather</string>
     <string name="locationInsert">Lokacija za prikaz vremenske prognoze:</string>
-    <string name="mainActivityButtonText">Prikazi</string>
+    <string name="mainActivityButtonText">Dodaj grad</string>
     <string name="locationActivityDetails">Lokacija: </string>
     <string name="dayActivityDetails">Dan: </string>
     <string name="temperatureButton">Temperatura</string>
