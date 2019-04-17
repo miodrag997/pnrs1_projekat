@@ -108,13 +108,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:id="@+id/pritisak"
+                    android:id="@+id/pressureTextView"
                     android:text="@string/pressureActivityDetails"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:id="@+id/vlaznostVazduha"
+                    android:id="@+id/humidityTextView"
                     android:text="@string/airHumidityActivityDetails"/>
 
             </LinearLayout>
@@ -159,10 +159,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/sunRiseTextView"
                 android:text="@string/sunriseTimeActivityDetails"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/sunSetTextView"
                 android:text="@string/sunsetTimeActivityDetails"/>
 
         </LinearLayout>
@@ -178,10 +180,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/windSpeedTextView"
                 android:text="@string/windSpeedActivityDetails"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/windDirectionTextView"
                 android:text="@string/windDirectionActivityDetails"/>
 
         </LinearLayout>

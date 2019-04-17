@@ -12,6 +12,10 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ElementRowAdapter extends BaseAdapter {
@@ -72,18 +76,15 @@ public class ElementRowAdapter extends BaseAdapter {
         final ViewHolder holder = (ViewHolder) view.getTag();
         holder.city.setText(element.location);
 
-
-
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent myIntent = new Intent(mContext, DetailsActivity.class);
                 Bundle b = new Bundle();
                 b.putString("location", holder.city.getText().toString());
                 myIntent.putExtras(b);
                 mContext.startActivity(myIntent);
-                
+
                 selected = (RadioButton)v;
                 selected.setChecked(false);
             }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,10 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static android.view.View.GONE;
 
@@ -29,7 +35,20 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
     Button temperatureButton, sunRiseSetButton, windButton;
     Spinner unitForDegrees;
-    TextView temperature, pressure, hummidity;
+    TextView temperature, windSpeed, pressure, humidity, sunRise, sunSet, windDir;
+
+    ////////HTTP//////
+    private HttpHelper httpHelper;
+    public static String GET_CITY = "https://api.openweathermap.org/data/2.5/weather?q=";
+    public static String API_KEY = "&APPID=6e2c4ea501a981241b6224f707c04e49";
+    public static String city = null;
+    String sTemperature;
+    String sWind;
+    String sPressure;
+    String sHumidity;
+    String sSunRise;
+    String sSunSet;
+    int sWindDir;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +60,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         Intent myIntent = getIntent();
         Bundle b = myIntent.getExtras();
         s = b.getString("location");
+        city = s;
         s = location.getText() + " " + s;
         location.setText(s);
 
@@ -70,6 +90,69 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         windButton.setOnClickListener(this);
 
         temperature = findViewById(R.id.temperature);
+        windSpeed = findViewById(R.id.windSpeedTextView);
+        pressure = findViewById(R.id.pressureTextView);
+        humidity = findViewById(R.id.humidityTextView);
+        sunRise = findViewById(R.id.sunRiseTextView);
+        sunSet = findViewById(R.id.sunSetTextView);
+        windDir = findViewById(R.id.windDirectionTextView);
+
+        httpHelper = new HttpHelper();
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    final String FINAL_URL = GET_CITY + city + "&units=metric" + API_KEY;
+                    JSONObject jsonobject = httpHelper.getJSONObjectFromURL(FINAL_URL);
+                    JSONObject main = (JSONObject) jsonobject.get("main");
+                    JSONObject sys = (JSONObject) jsonobject.get("sys");
+                    JSONObject wind = (JSONObject) jsonobject.get("wind");
+
+                    sTemperature = main.getString("temp");
+                    sHumidity = main.getString("humidity");
+                    sPressure = main.getString("pressure");
+                    sSunRise = sys.getString("sunrise");
+                    sSunSet = sys.getString("sunset");
+                    sWind = wind.getString("speed");
+                    sWindDir = Integer.parseInt(wind.getString("deg"));
+
+                    temperature.setText(sTemperature + " °C");
+                    humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
+                    pressure.setText("Pritisak: " + sPressure + " mb");
+                    windSpeed.setText("Brzina: "+ sWind + " m/s");
+
+                    TimeZone tz = TimeZone.getTimeZone("GMT+2");
+                    SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                    df.setTimeZone(tz);
+
+                    Date sunRiseDate = new java.util.Date(Integer.parseInt(sSunRise)*1000L);
+                    String time = df.format(sunRiseDate);
+                    sunRise.setText("Izlazak sunca: " + time + " h");
+
+                    Date sunSetDate = new java.util.Date(Integer.parseInt(sSunSet)*1000L);
+                    String time0 = df.format(sunSetDate);
+                    sunSet.setText("Izlazak sunca: " + time0 + " h");
+
+                    String direction = null;
+                    if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
+                    if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
+                    if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
+                    if(sWindDir > 112 || sWindDir <= 157) direction = "Jug-Istok";
+                    if(sWindDir > 157 || sWindDir <= 202) direction = "Jug";
+                    if(sWindDir > 202 || sWindDir <= 247) direction = "Jug-Zapad";
+                    if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
+                    if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
+
+                    windDir.setText("Pravac: " + direction);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
 
         unitForDegrees = findViewById(R.id.spinnerJedinica);
         String[] items = new String[]{"°C", "°F"};
@@ -83,19 +166,18 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
             public void onItemSelected(AdapterView adapter, View v, int i, long lng) {
 
                 selecteditem =  adapter.getItemAtPosition(i).toString();
-                //or this can be also right: selecteditem = level[i];
                 if(selecteditem == "°C" && previousItem == "°F"){
-                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-2));
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-3));
                     degrees = (degrees-32)*5/9;
                     degrees = round(degrees, 2);
-                    temperature.setText(String.valueOf(degrees) + "°C");
+                    temperature.setText(String.valueOf(degrees) + " °C");
                     previousItem = "°C";
                 }
                 if(selecteditem == "°F"){
-                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-2));
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-3));
                     degrees = degrees*9/5+32;
                     degrees = round(degrees, 2);
-                    temperature.setText(String.valueOf(degrees) + "°F");
+                    temperature.setText(String.valueOf(degrees) + " °F");
                     previousItem = "°F";
                 }
             }

@@ -29,7 +29,7 @@ private final String TAG = "main";
 
         adapter = new ElementRowAdapter(this);
         adapter.addElement(new ElementRow("Novi Sad"));
-        adapter.addElement(new ElementRow("Beograd"));
+        adapter.addElement(new ElementRow("Belgrade"));
         adapter.addElement(new ElementRow("Bijeljina"));
 
         listOfCities = (ListView) findViewById(R.id.listOfCities);
@@ -46,13 +46,7 @@ private final String TAG = "main";
         });
 
     }
-/*
-    @Override
-    protected void onResume() {
-        super.onResume();
-        adapter.setAllButtonsUnchecked();
-    }
-*/
+
     @Override
         public void onClick(View v) {
         switch (v.getId()){
@@ -66,10 +60,5 @@ private final String TAG = "main";
                 }
                 break;
         }
-
-
-
-
     }
-
 }

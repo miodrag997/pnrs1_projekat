@@ -715,6 +715,7 @@ id group_divider
 id groups
 id home
 id homeAsUp
+id humidityTextView
 id icon
 id icon_group
 id ifRoom
@@ -742,7 +743,7 @@ id packed
 id parent
 id parentPanel
 id percent
-id pritisak
+id pressureTextView
 id progress_circular
 id progress_horizontal
 id radio
@@ -782,6 +783,8 @@ id submenuarrow
 id submit_area
 id sunRiseSetButton
 id sunRiseSetLayout
+id sunRiseTextView
+id sunSetTextView
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
@@ -804,9 +807,10 @@ id topPanel
 id uniform
 id up
 id useLogo
-id vlaznostVazduha
 id windButton
+id windDirectionTextView
 id windLayout
+id windSpeedTextView
 id withText
 id wrap
 id wrap_content
