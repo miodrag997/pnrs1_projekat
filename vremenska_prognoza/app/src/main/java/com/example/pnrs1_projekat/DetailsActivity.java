@@ -112,13 +112,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     sPressure = main.getString("pressure");
                     sSunRise = sys.getString("sunrise");
                     sSunSet = sys.getString("sunset");
-                    sWind = wind.getString("speed");
-                    sWindDir = Integer.parseInt(wind.getString("deg"));
 
                     temperature.setText(sTemperature + " °C");
                     humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
                     pressure.setText("Pritisak: " + sPressure + " mb");
-                    windSpeed.setText("Brzina: "+ sWind + " m/s");
 
                     TimeZone tz = TimeZone.getTimeZone("GMT+2");
                     SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
@@ -132,17 +129,29 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     String time0 = df.format(sunSetDate);
                     sunSet.setText("Izlazak sunca: " + time0 + " h");
 
-                    String direction = null;
-                    if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
-                    if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
-                    if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
-                    if(sWindDir > 112 || sWindDir <= 157) direction = "Jug-Istok";
-                    if(sWindDir > 157 || sWindDir <= 202) direction = "Jug";
-                    if(sWindDir > 202 || sWindDir <= 247) direction = "Jug-Zapad";
-                    if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
-                    if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
+                    try{
+                        sWind = wind.getString("speed");
+                        windSpeed.setText("Brzina: "+ sWind + " m/s");
+                    }catch(JSONException e) {
+                        windSpeed.setText("Brzina: Nema informacija");
+                    }
+                    try{
+                        sWindDir = Integer.parseInt(wind.getString("deg"));
 
-                    windDir.setText("Pravac: " + direction);
+                        String direction = null;
+                        if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
+                        if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
+                        if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
+                        if(sWindDir > 112 || sWindDir <= 157) direction = "Jug-Istok";
+                        if(sWindDir > 157 || sWindDir <= 202) direction = "Jug";
+                        if(sWindDir > 202 || sWindDir <= 247) direction = "Jug-Zapad";
+                        if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
+                        if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
+
+                        windDir.setText("Pravac: " + direction);
+                    }catch(JSONException e) {
+                        windDir.setText("Smer: Nema informacija");
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
