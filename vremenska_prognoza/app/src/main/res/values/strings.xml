@@ -17,4 +17,6 @@
     <string name="sunsetTimeActivityDetails">Zalazak sunca: </string>
     <string name="sunriseTimeActivityDetails">Izlazak sunca: </string>
     <string name="temperature">11 °C</string>
+    <string name="dateActivityDetails">Datum:</string>
+    <string name="buttonStatisticsActivitiDetails">Statistika</string>
 </resources>

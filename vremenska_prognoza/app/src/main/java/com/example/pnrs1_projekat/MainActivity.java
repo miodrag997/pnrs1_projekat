@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-private final String TAG = "main";
+    private final String TAG = "main";
     Button buttonMainActivity;
     EditText myLocation;
     ListView listOfCities;

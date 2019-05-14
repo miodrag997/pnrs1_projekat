@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:weightSum="2"
+        android:weightSum="3"
         android:orientation="vertical"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp">
@@ -27,9 +27,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:id="@+id/day"
-            android:text="@string/dayActivityDetails"
+            android:text="@string/dateActivityDetails"
+            android:id="@+id/dateTextView"
             android:textSize="20dp"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:id="@+id/buttonStatistics"
+            android:text="@string/buttonStatisticsActivitiDetails"/>
 
     </LinearLayout>
 

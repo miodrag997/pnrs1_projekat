@@ -1,5 +1,7 @@
 package com.example.pnrs1_projekat;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ import static android.view.View.GONE;
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     TextView location;
-    TextView day;
+    TextView dateTextView;
     String s;
     FrameLayout frameLayout;
     LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
@@ -49,6 +51,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     String sSunRise;
     String sSunSet;
     int sWindDir;
+    String direction = null;
+    String today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +68,12 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         s = location.getText() + " " + s;
         location.setText(s);
 
-        /* DAN */
-        Locale serbian = new Locale.Builder().setLanguage("sr").setRegion("RS").setScript("Latn").build();
-        Date date = Calendar.getInstance(serbian).getTime();
-        String today = new SimpleDateFormat("EEEE", serbian).format(date);
-        today = today.substring(0, 1).toUpperCase() + today.substring(1);
-        day = findViewById(R.id.day);
-        day.setText(day.getText().toString() + " " + today);
+        /* DATUM */
+        Date date = Calendar.getInstance().getTime();
+        today = new SimpleDateFormat("dd.MM.yyyy.").format(date);
+        //today = today.substring(0, 1).toUpperCase() + today.substring(1);
+        dateTextView = findViewById(R.id.dateTextView);
+        dateTextView.setText(dateTextView.getText().toString() + " " + today);
 
         temperatureLayout = findViewById(R.id.temperatureLayout);
         sunRiseSetLayout = findViewById(R.id.sunRiseSetLayout);
@@ -138,7 +141,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     try{
                         sWindDir = Integer.parseInt(wind.getString("deg"));
 
-                        String direction = null;
+
                         if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
                         if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
                         if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
@@ -158,6 +161,21 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+                ContentValues values = new ContentValues();
+                values.put(ElementDbHelper.COLUMN_DATE, today);
+                values.put(ElementDbHelper.COLUMN_CITY, city);
+                values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+                values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+                values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+                values.put(ElementDbHelper.COLUMN_SUNRISE, sSunRise);
+                values.put(ElementDbHelper.COLUMN_SUNSET, sSunSet);
+                values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+                values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+
+                ContentResolver resolver = getContentResolver();
+                resolver.insert(ElementProvider.CONTENT_URI, values);
+
             }
         }).start();
 
