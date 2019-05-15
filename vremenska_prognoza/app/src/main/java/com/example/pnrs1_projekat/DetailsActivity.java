@@ -214,7 +214,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 buttonUpdate.setVisibility(v.INVISIBLE);
                 break;
             case R.id.buttonStatistics:
-                //TODO
+                
                 break;
             default:
         }
