@@ -1,9 +1,422 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StatisticsActivity">
+    tools:context=".StatisticsActivity"
+    android:orientation="vertical"
+    android:weightSum="9">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/ime_grada"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="50dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:text=" Poslednja nedelja:"
+        android:textSize="25dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:weightSum="5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:weightSum="8">
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dan"
+                android:textSize="19dp"
+                android:textAlignment="center"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/monday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Ponedeljak"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/tuesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Utorak"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/wednesday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Sreda"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/thursday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Četvrtak"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/friday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Petak"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/saturday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Subota"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+            <TextView
+                android:id="@+id/sunday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=" Nedelja"
+                android:textSize="19dp"
+                android:clickable="true" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:weightSum="3">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:text="Temp."
+                    android:textAlignment="center"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/mondayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/tuesdayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/wednesdayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/thursdayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/fridayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/saturdayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/sundayTemperature"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:text="Pritisak"
+                    android:textAlignment="center"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/mondayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/tuesdayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/wednesdayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/thursdayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/fridayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/saturdayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/sundayPreassure"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:text="Vlaznost"
+                    android:textAlignment="center"
+                    android:padding="5dp"/>
+
+                <TextView
+                    android:id="@+id/mondayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/tuesdayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/wednesdayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/thursdayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/fridayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/saturdayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+                <TextView
+                    android:id="@+id/sundayHumidity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="19dp"
+                    android:textAlignment="center"
+                    android:text="TextView" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="4.5"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textView43"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" Min. tempratura"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/dan_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/temp_min"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" Max temperatura"
+                android:textSize="17dp"/>
+
+            <TextView
+                android:id="@+id/dan_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/temp_max"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="17dp"
+                android:text="TextView" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+
+            <ImageView
+                android:id="@+id/slika1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true" />
+
+            <ImageView
+                android:id="@+id/slika2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

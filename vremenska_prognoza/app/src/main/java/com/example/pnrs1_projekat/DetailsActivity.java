@@ -218,9 +218,14 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     break;
                 case R.id.buttonStatistics:
                     //TODO//
-                    temperatureLayout.setVisibility(v.INVISIBLE);
-                    sunRiseSetLayout.setVisibility(v.INVISIBLE);
-                    windLayout.setVisibility(v.INVISIBLE);
+                    Intent intent = new Intent(getApplicationContext(),StatisticsActivity.class);
+                    intent.putExtra("temperatura",String.valueOf(sTemperature));
+                    intent.putExtra("grad",city);
+                    intent.putExtra("dan",today);
+                    intent.putExtra("pressure",sPressure);
+                    intent.putExtra("humidity",sHumidity);
+
+                    startActivity(intent);
                     break;
                 default:
             }

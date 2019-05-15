@@ -5,28 +5,24 @@
     build-mode="COLD"
     density="420dpi"
     format="10"
-    ir-eligibility="METHOD_DELETED"
     plugin-version="3.3.2"
-    timestamp="1557958502342"
+    timestamp="1557960447727"
     token="-690219458185893923"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="181" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="30" />
+        duration="0" />
     <task
         name="verifier"
-        duration="4" />
+        duration="0" />
 
-    <artifact
-        location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
     <artifact
         location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
         type="SPLIT_MAIN" />
@@ -76,25 +72,28 @@
     <build
         build-mode="COLD"
         ir-eligibility="R_CLASS_CHANGE"
-        timestamp="1557954496440"
+        timestamp="1557960077421"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
-            type="SPLIT" />
-        <artifact
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_3.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
+            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            type="SPLIT" />
+        <artifact
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_9.apk"
@@ -102,21 +101,8 @@
     </build>
     <build
         build-mode="COLD"
-        ir-eligibility="CLASS_ADDED"
-        timestamp="1557958447513"
+        timestamp="1557960447727"
         verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
-            type="SPLIT_MAIN" />
-    </build>
-    <build
-        build-mode="COLD"
-        ir-eligibility="METHOD_DELETED"
-        timestamp="1557958502342"
-        verifier="COLD_SWAP_REQUESTED" >
-        <artifact
-            location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-            type="SPLIT" />
         <artifact
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
