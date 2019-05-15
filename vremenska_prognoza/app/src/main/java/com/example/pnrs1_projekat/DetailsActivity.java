@@ -59,6 +59,11 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     String today, lastUpdateDay;
     String time, time0;
 
+    private ElementDbHelper mDbHelper;
+    private Cursor cursor;
+    private WeatherAttributes[] weatherAttributes;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,44 +113,39 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         windDir = findViewById(R.id.windDirectionTextView);
         textViewLastUpdate = findViewById(R.id.textViewLastUpdate);
 
+        //ContentResolver resolver = getContentResolver();
+        //Cursor cursor = resolver.query(Uri.parse(ElementProvider.CONTENT_URI + "/" + city), null, ElementDbHelper.COLUMN_CITY+"=?", null,
+        //        null);
+        httpHelper = new HttpHelper();
 
-        ContentResolver resolver = getContentResolver();
-        Cursor cursor = resolver.query(Uri.parse(ElementProvider.CONTENT_URI + "/" + city), null, ElementDbHelper.COLUMN_CITY+"=?", null,
-                null);
+        mDbHelper = new ElementDbHelper(this);
 
-        if (cursor.getCount() <= 0) {
+        try{
+            weatherAttributes = mDbHelper.readWeather(city);
+            WeatherAttributes temp = weatherAttributes[weatherAttributes.length-1];
+
+            dateTextView.setText(dateTextView.getText().toString() + " " + temp.getDate());
+            temperature.setText(temp.getTemperature() + " °C");
+            humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + temp.getHumidity() + " %");
+            pressure.setText("Pritisak: " + temp.getPressure() + " mb");
+            sunRise.setText("Izlazak sunca: " + temp.getSunRise() + " h");
+            sunSet.setText("Izlazak sunca: " + temp.getSunSet() + " h");
+            windSpeed.setText("Brzina: " + temp.getWindSpeed() + " m/s");
+            windDir.setText("Pravac: " + temp.getWindDirection());
+
+            if (today.equals(temp.getDate())) {
+                textViewLastUpdate.setVisibility(View.INVISIBLE);
+                buttonUpdate.setVisibility(View.INVISIBLE);
+            }
+        }catch (Exception e){
+            Log.d("test", "uhvatio exception");
             dateTextView.setText(dateTextView.getText().toString() + " " + today);
             textViewLastUpdate.setVisibility(View.INVISIBLE);
             buttonUpdate.setVisibility(View.INVISIBLE);
 
             getDataFromInternet();
-
-        }else {
-            cursor.moveToLast();
-            lastUpdateDay = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_DATE));
-            sTemperature = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_TEMPERATURE));
-            sHumidity = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_HUMIDITY));
-            sPressure = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_PREASSURE));
-            time = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_SUNRISE));
-            time0 = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_SUNSET));
-            sWind = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_WIND_SPEED));
-            direction = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_WIND_DIRECTION));
-
-            dateTextView.setText(dateTextView.getText().toString() + " " + lastUpdateDay);
-            temperature.setText(sTemperature + " °C");
-            humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
-            pressure.setText("Pritisak: " + sPressure + " mb");
-            sunRise.setText("Izlazak sunca: " + time + " h");
-            sunSet.setText("Izlazak sunca: " + time0 + " h");
-            windSpeed.setText("Brzina: " + sWind + " m/s");
-            windDir.setText("Pravac: " + direction);
-            cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_CITY));
-
-            if (today.equals(lastUpdateDay)) {
-                textViewLastUpdate.setVisibility(View.INVISIBLE);
-                buttonUpdate.setVisibility(View.INVISIBLE);
-            }
         }
+
         unitForDegrees = findViewById(R.id.spinnerJedinica);
         String[] items = new String[]{"°C", "°F"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -221,7 +221,6 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getDataFromInternet(){
-        httpHelper = new HttpHelper();
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -259,10 +258,13 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     }catch(JSONException e) {
                         windSpeed.setText("Brzina: 0 m/s");
                         sWind = "0";
+                    }catch (Exception e){
+                        windSpeed.setText("Brzina: 0 m/s");
+                        sWind = "0";
                     }
+
                     try{
                         sWindDir = Integer.parseInt(wind.getString("deg"));
-
 
                         if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
                         if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
@@ -275,6 +277,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
                         windDir.setText("Pravac: " + direction);
                     }catch(JSONException e) {
+                        windDir.setText("Pravac: Nema informacija");
+                        direction = "Nema informacija";
+                    }catch (Exception e){
                         windDir.setText("Pravac: Nema informacija");
                         direction = "Nema informacija";
                     }
@@ -296,9 +301,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
                 values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
 
-                ContentResolver resolver = getContentResolver();
-                resolver.insert(ElementProvider.CONTENT_URI, values);
-
+                //ContentResolver resolver = getContentResolver();
+                //resolver.insert(ElementProvider.CONTENT_URI, values);
+                mDbHelper.insert(values);
             }
         }).start();
     }

@@ -10,4 +10,8 @@ public class ElementRow {
     public ElementRow(String location1){
         location = location1;
     }
+
+    public String getLocation() {
+        return location;
+    }
 }
