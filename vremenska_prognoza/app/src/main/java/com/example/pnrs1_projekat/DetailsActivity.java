@@ -213,6 +213,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 textViewLastUpdate.setVisibility(v.INVISIBLE);
                 buttonUpdate.setVisibility(v.INVISIBLE);
                 break;
+            case R.id.buttonStatistics:
+                
+                break;
             default:
         }
     }
