@@ -379,6 +379,7 @@
     <string name="appName">PantelaWeather</string>
     <string name="app_name">PantelaWeather</string>
     <string name="buttonStatisticsActivitiDetails">Statistika</string>
+    <string name="buttonUpdate">Azuriraj</string>
     <string name="dateActivityDetails">Datum:</string>
     <string name="dayActivityDetails">Dan: </string>
     <string name="locationActivityDetails">Lokacija: </string>
@@ -393,6 +394,7 @@
     <string name="temperature">11 °C</string>
     <string name="temperatureActivityDetails">Temperatura: </string>
     <string name="temperatureButton">Temperatura</string>
+    <string name="textViewLastUpdate">poslednje azuriranje</string>
     <string name="unitActivityDetails">Jedinica:</string>
     <string name="windButton">Vetar</string>
     <string name="windDirectionActivityDetails">Pravac: </string>

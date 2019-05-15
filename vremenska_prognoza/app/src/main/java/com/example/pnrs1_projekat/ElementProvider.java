@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 public class ElementProvider extends ContentProvider {
 
@@ -27,8 +28,8 @@ public class ElementProvider extends ContentProvider {
 
     static {
         sUriMatcher.addURI(AUTHORITY, ElementDbHelper.TABLE_NAME, ELEMENT);
-        sUriMatcher.addURI(AUTHORITY, ElementDbHelper.TABLE_NAME + "/#", CITY_NAME);
-        sUriMatcher.addURI(AUTHORITY, ElementDbHelper.TABLE_NAME + "/#", CITY_NAME_AND_DATE);
+        sUriMatcher.addURI(AUTHORITY, ElementDbHelper.TABLE_NAME + "/*", CITY_NAME);
+        sUriMatcher.addURI(AUTHORITY, ElementDbHelper.TABLE_NAME + "/*/*", CITY_NAME_AND_DATE);
     }
 
     private ElementDbHelper mHelper = null;
@@ -135,11 +136,11 @@ public class ElementProvider extends ContentProvider {
                 cursor = query(projection, selection, selectionArgs, sortOrder);
                 break;
             case CITY_NAME:
-                cursor = query(projection, "_City=?",
+                cursor = query(projection, "City=?",
                         new String[]{uri.getLastPathSegment()}, null);
                 break;
             case CITY_NAME_AND_DATE:
-                cursor = query(projection, "_City=? and _Date=?",
+                cursor = query(projection, "City=? and Date=?",
                         selectionArgs, null);
                 break;
             default:
@@ -167,10 +168,10 @@ public class ElementProvider extends ContentProvider {
                 updated = update(values, selection, selectionArgs);
                 break;
             case CITY_NAME:
-                updated = update(values, "_City=?", new String[]{uri.getLastPathSegment()});
+                updated = update(values, "City=?", new String[]{uri.getLastPathSegment()});
                 break;
             case CITY_NAME_AND_DATE:
-                updated = update(values, "_City=? and _Date=?", selectionArgs);
+                updated = update(values, "City=? and Date=?", selectionArgs);
                 break;
             default:
         }

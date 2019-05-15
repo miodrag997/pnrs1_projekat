@@ -683,6 +683,7 @@ id buttonChangeActivity
 id buttonMainActivity
 id buttonPanel
 id buttonStatistics
+id buttonUpdate
 id center
 id center_horizontal
 id center_vertical
@@ -798,6 +799,7 @@ id text
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
+id textViewLastUpdate
 id textViewLocation
 id time
 id title
@@ -906,6 +908,7 @@ string airHumidityActivityDetails
 string appName
 string app_name
 string buttonStatisticsActivitiDetails
+string buttonUpdate
 string dateActivityDetails
 string dayActivityDetails
 string locationActivityDetails
@@ -920,6 +923,7 @@ string sunsetTimeActivityDetails
 string temperature
 string temperatureActivityDetails
 string temperatureButton
+string textViewLastUpdate
 string unitActivityDetails
 string windButton
 string windDirectionActivityDetails

@@ -3,6 +3,8 @@ package com.example.pnrs1_projekat;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -32,6 +34,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
     TextView location;
     TextView dateTextView;
+    TextView textViewLastUpdate;
+    Button buttonUpdate, buttonStatistics;
     String s;
     FrameLayout frameLayout;
     LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
@@ -52,7 +56,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     String sSunSet;
     int sWindDir;
     String direction = null;
-    String today;
+    String today, lastUpdateDay;
+    String time, time0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         /* DATUM */
         Date date = Calendar.getInstance().getTime();
         today = new SimpleDateFormat("dd.MM.yyyy.").format(date);
-        //today = today.substring(0, 1).toUpperCase() + today.substring(1);
         dateTextView = findViewById(R.id.dateTextView);
-        dateTextView.setText(dateTextView.getText().toString() + " " + today);
 
         temperatureLayout = findViewById(R.id.temperatureLayout);
         sunRiseSetLayout = findViewById(R.id.sunRiseSetLayout);
@@ -87,10 +90,14 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         temperatureButton = findViewById(R.id.temperatureButton);
         sunRiseSetButton = findViewById(R.id.sunRiseSetButton);
         windButton = findViewById(R.id.windButton);
+        buttonUpdate = findViewById(R.id.buttonUpdate);
+        buttonStatistics = findViewById(R.id.buttonStatistics);
 
         temperatureButton.setOnClickListener(this);
         sunRiseSetButton.setOnClickListener(this);
         windButton.setOnClickListener(this);
+        buttonUpdate.setOnClickListener(this);
+        buttonStatistics.setOnClickListener(this);
 
         temperature = findViewById(R.id.temperature);
         windSpeed = findViewById(R.id.windSpeedTextView);
@@ -99,88 +106,46 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         sunRise = findViewById(R.id.sunRiseTextView);
         sunSet = findViewById(R.id.sunSetTextView);
         windDir = findViewById(R.id.windDirectionTextView);
-
-        httpHelper = new HttpHelper();
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    final String FINAL_URL = GET_CITY + city + "&units=metric" + API_KEY;
-                    JSONObject jsonobject = httpHelper.getJSONObjectFromURL(FINAL_URL);
-                    JSONObject main = (JSONObject) jsonobject.get("main");
-                    JSONObject sys = (JSONObject) jsonobject.get("sys");
-                    JSONObject wind = (JSONObject) jsonobject.get("wind");
-
-                    sTemperature = main.getString("temp");
-                    sHumidity = main.getString("humidity");
-                    sPressure = main.getString("pressure");
-                    sSunRise = sys.getString("sunrise");
-                    sSunSet = sys.getString("sunset");
-
-                    temperature.setText(sTemperature + " °C");
-                    humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
-                    pressure.setText("Pritisak: " + sPressure + " mb");
-
-                    TimeZone tz = TimeZone.getTimeZone("GMT+2");
-                    SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
-                    df.setTimeZone(tz);
-
-                    Date sunRiseDate = new java.util.Date(Integer.parseInt(sSunRise)*1000L);
-                    String time = df.format(sunRiseDate);
-                    sunRise.setText("Izlazak sunca: " + time + " h");
-
-                    Date sunSetDate = new java.util.Date(Integer.parseInt(sSunSet)*1000L);
-                    String time0 = df.format(sunSetDate);
-                    sunSet.setText("Izlazak sunca: " + time0 + " h");
-
-                    try{
-                        sWind = wind.getString("speed");
-                        windSpeed.setText("Brzina: "+ sWind + " m/s");
-                    }catch(JSONException e) {
-                        windSpeed.setText("Brzina: Nema informacija");
-                    }
-                    try{
-                        sWindDir = Integer.parseInt(wind.getString("deg"));
+        textViewLastUpdate = findViewById(R.id.textViewLastUpdate);
 
 
-                        if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
-                        if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
-                        if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
-                        if(sWindDir > 112 || sWindDir <= 157) direction = "Jug-Istok";
-                        if(sWindDir > 157 || sWindDir <= 202) direction = "Jug";
-                        if(sWindDir > 202 || sWindDir <= 247) direction = "Jug-Zapad";
-                        if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
-                        if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
+        ContentResolver resolver = getContentResolver();
+        Cursor cursor = resolver.query(Uri.parse(ElementProvider.CONTENT_URI + "/" + city), null, ElementDbHelper.COLUMN_CITY+"=?", null,
+                null);
 
-                        windDir.setText("Pravac: " + direction);
-                    }catch(JSONException e) {
-                        windDir.setText("Smer: Nema informacija");
-                    }
+        if (cursor.getCount() <= 0) {
+            dateTextView.setText(dateTextView.getText().toString() + " " + today);
+            textViewLastUpdate.setVisibility(View.INVISIBLE);
+            buttonUpdate.setVisibility(View.INVISIBLE);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            getDataFromInternet();
 
-                ContentValues values = new ContentValues();
-                values.put(ElementDbHelper.COLUMN_DATE, today);
-                values.put(ElementDbHelper.COLUMN_CITY, city);
-                values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
-                values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
-                values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
-                values.put(ElementDbHelper.COLUMN_SUNRISE, sSunRise);
-                values.put(ElementDbHelper.COLUMN_SUNSET, sSunSet);
-                values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
-                values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        }else {
+            cursor.moveToLast();
+            lastUpdateDay = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_DATE));
+            sTemperature = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_TEMPERATURE));
+            sHumidity = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_HUMIDITY));
+            sPressure = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_PREASSURE));
+            time = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_SUNRISE));
+            time0 = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_SUNSET));
+            sWind = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_WIND_SPEED));
+            direction = cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_WIND_DIRECTION));
 
-                ContentResolver resolver = getContentResolver();
-                resolver.insert(ElementProvider.CONTENT_URI, values);
+            dateTextView.setText(dateTextView.getText().toString() + " " + lastUpdateDay);
+            temperature.setText(sTemperature + " °C");
+            humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
+            pressure.setText("Pritisak: " + sPressure + " mb");
+            sunRise.setText("Izlazak sunca: " + time + " h");
+            sunSet.setText("Izlazak sunca: " + time0 + " h");
+            windSpeed.setText("Brzina: " + sWind + " m/s");
+            windDir.setText("Pravac: " + direction);
+            cursor.getString(cursor.getColumnIndex(ElementDbHelper.COLUMN_CITY));
 
+            if (today.equals(lastUpdateDay)) {
+                textViewLastUpdate.setVisibility(View.INVISIBLE);
+                buttonUpdate.setVisibility(View.INVISIBLE);
             }
-        }).start();
-
-
-
+        }
         unitForDegrees = findViewById(R.id.spinnerJedinica);
         String[] items = new String[]{"°C", "°F"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
@@ -243,6 +208,95 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 sunRiseSetLayout.setVisibility(v.INVISIBLE);
                 windLayout.setVisibility(v.VISIBLE);
                 break;
+            case R.id.buttonUpdate:
+                getDataFromInternet();
+                textViewLastUpdate.setVisibility(v.INVISIBLE);
+                buttonUpdate.setVisibility(v.INVISIBLE);
+                break;
+            default:
         }
+    }
+
+    private void getDataFromInternet(){
+        httpHelper = new HttpHelper();
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+                    final String FINAL_URL = GET_CITY + city + "&units=metric" + API_KEY;
+                    JSONObject jsonobject = httpHelper.getJSONObjectFromURL(FINAL_URL);
+                    JSONObject main = (JSONObject) jsonobject.get("main");
+                    JSONObject sys = (JSONObject) jsonobject.get("sys");
+                    JSONObject wind = (JSONObject) jsonobject.get("wind");
+
+                    sTemperature = main.getString("temp");
+                    sHumidity = main.getString("humidity");
+                    sPressure = main.getString("pressure");
+                    sSunRise = sys.getString("sunrise");
+                    sSunSet = sys.getString("sunset");
+
+                    temperature.setText(sTemperature + " °C");
+                    humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
+                    pressure.setText("Pritisak: " + sPressure + " mb");
+
+                    TimeZone tz = TimeZone.getTimeZone("GMT+2");
+                    SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
+                    df.setTimeZone(tz);
+
+                    Date sunRiseDate = new java.util.Date(Integer.parseInt(sSunRise)*1000L);
+                    time = df.format(sunRiseDate);
+                    sunRise.setText("Izlazak sunca: " + time + " h");
+
+                    Date sunSetDate = new java.util.Date(Integer.parseInt(sSunSet)*1000L);
+                    time0 = df.format(sunSetDate);
+                    sunSet.setText("Izlazak sunca: " + time0 + " h");
+
+                    try{
+                        sWind = wind.getString("speed");
+                        windSpeed.setText("Brzina: "+ sWind + " m/s");
+                    }catch(JSONException e) {
+                        windSpeed.setText("Brzina: 0 m/s");
+                        sWind = "0";
+                    }
+                    try{
+                        sWindDir = Integer.parseInt(wind.getString("deg"));
+
+
+                        if(sWindDir > 337 || sWindDir <= 22) direction = "Sever";
+                        if(sWindDir > 22 || sWindDir <= 67) direction = "Sever-Istok";
+                        if(sWindDir > 67 || sWindDir <= 112) direction = "Istok";
+                        if(sWindDir > 112 || sWindDir <= 157) direction = "Jug-Istok";
+                        if(sWindDir > 157 || sWindDir <= 202) direction = "Jug";
+                        if(sWindDir > 202 || sWindDir <= 247) direction = "Jug-Zapad";
+                        if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
+                        if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
+
+                        windDir.setText("Pravac: " + direction);
+                    }catch(JSONException e) {
+                        windDir.setText("Pravac: Nema informacija");
+                        direction = "Nema informacija";
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ContentValues values = new ContentValues();
+                values.put(ElementDbHelper.COLUMN_DATE, today);
+                values.put(ElementDbHelper.COLUMN_CITY, city);
+                values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+                values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+                values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+                values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+                values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+                values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+                values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+
+                ContentResolver resolver = getContentResolver();
+                resolver.insert(ElementProvider.CONTENT_URI, values);
+
+            }
+        }).start();
     }
 }
