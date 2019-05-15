@@ -645,6 +645,7 @@ drawable notify_panel_notification_icon_bg
 drawable sun
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
+drawable update
 id ALT
 id CTRL
 id FUNCTION
@@ -683,7 +684,6 @@ id buttonChangeActivity
 id buttonMainActivity
 id buttonPanel
 id buttonStatistics
-id buttonUpdate
 id center
 id center_horizontal
 id center_vertical
@@ -722,6 +722,7 @@ id icon
 id icon_group
 id ifRoom
 id image
+id imageButtonUpdate
 id info
 id invisible
 id italic
@@ -852,6 +853,7 @@ layout abc_select_dialog_material
 layout abc_tooltip
 layout activity_details
 layout activity_main
+layout activity_statistics
 layout element_row
 layout notification_action
 layout notification_action_tombstone

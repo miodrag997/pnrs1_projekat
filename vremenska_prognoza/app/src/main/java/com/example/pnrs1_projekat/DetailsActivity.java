@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,16 +33,17 @@ import static android.view.View.GONE;
 
 public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView location;
-    TextView dateTextView;
-    TextView textViewLastUpdate;
-    Button buttonUpdate, buttonStatistics;
-    String s;
-    FrameLayout frameLayout;
-    LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
-    Button temperatureButton, sunRiseSetButton, windButton;
-    Spinner unitForDegrees;
-    TextView temperature, windSpeed, pressure, humidity, sunRise, sunSet, windDir;
+    public TextView location;
+    public TextView dateTextView;
+    public TextView textViewLastUpdate;
+    public Button buttonStatistics;
+    public ImageButton buttonUpdate;
+    public String s;
+    public FrameLayout frameLayout;
+    public LinearLayout temperatureLayout, sunRiseSetLayout, windLayout;
+    public Button temperatureButton, sunRiseSetButton, windButton;
+    public Spinner unitForDegrees;
+    public TextView temperature, windSpeed, pressure, humidity, sunRise, sunSet, windDir;
 
     ////////HTTP//////
     private HttpHelper httpHelper;
@@ -62,7 +64,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     private ElementDbHelper mDbHelper;
     private Cursor cursor;
     private WeatherAttributes[] weatherAttributes;
-
+    private Bundle b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         /* LOKACIJA */
         location = findViewById(R.id.location);
         Intent myIntent = getIntent();
-        Bundle b = myIntent.getExtras();
+        b = myIntent.getExtras();
         s = b.getString("location");
         city = s;
         s = location.getText() + " " + s;
@@ -95,7 +97,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         temperatureButton = findViewById(R.id.temperatureButton);
         sunRiseSetButton = findViewById(R.id.sunRiseSetButton);
         windButton = findViewById(R.id.windButton);
-        buttonUpdate = findViewById(R.id.buttonUpdate);
+        buttonUpdate = findViewById(R.id.imageButtonUpdate);
         buttonStatistics = findViewById(R.id.buttonStatistics);
 
         temperatureButton.setOnClickListener(this);
@@ -120,9 +122,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         mDbHelper = new ElementDbHelper(this);
 
-        try{
+        try {
             weatherAttributes = mDbHelper.readWeather(city);
-            WeatherAttributes temp = weatherAttributes[weatherAttributes.length-1];
+            WeatherAttributes temp = weatherAttributes[weatherAttributes.length - 1];
 
             dateTextView.setText(dateTextView.getText().toString() + " " + temp.getDate());
             temperature.setText(temp.getTemperature() + " °C");
@@ -137,11 +139,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 textViewLastUpdate.setVisibility(View.INVISIBLE);
                 buttonUpdate.setVisibility(View.INVISIBLE);
             }
-        }catch (Exception e){
-            Log.d("test", "uhvatio exception");
+        } catch (Exception e) {
             dateTextView.setText(dateTextView.getText().toString() + " " + today);
-            textViewLastUpdate.setVisibility(View.INVISIBLE);
-            buttonUpdate.setVisibility(View.INVISIBLE);
+            textViewLastUpdate.setVisibility(GONE);
+            buttonUpdate.setVisibility(GONE);
 
             getDataFromInternet();
         }
@@ -154,20 +155,21 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         unitForDegrees.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             private String selecteditem, previousItem = null;
             private double degrees = 0;
+
             @Override
             public void onItemSelected(AdapterView adapter, View v, int i, long lng) {
 
-                selecteditem =  adapter.getItemAtPosition(i).toString();
-                if(selecteditem == "°C" && previousItem == "°F"){
-                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-3));
-                    degrees = (degrees-32)*5/9;
+                selecteditem = adapter.getItemAtPosition(i).toString();
+                if (selecteditem == "°C" && previousItem == "°F") {
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length() - 3));
+                    degrees = (degrees - 32) * 5 / 9;
                     degrees = round(degrees, 2);
                     temperature.setText(String.valueOf(degrees) + " °C");
                     previousItem = "°C";
                 }
-                if(selecteditem == "°F"){
-                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length()-3));
-                    degrees = degrees*9/5+32;
+                if (selecteditem == "°F") {
+                    degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length() - 3));
+                    degrees = degrees * 9 / 5 + 32;
                     degrees = round(degrees, 2);
                     temperature.setText(String.valueOf(degrees) + " °F");
                     previousItem = "°F";
@@ -190,35 +192,41 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.temperatureButton:
-                temperatureLayout.setVisibility(v.VISIBLE);
-                sunRiseSetLayout.setVisibility(v.INVISIBLE);
-                windLayout.setVisibility(v.INVISIBLE);
-                break;
-            case R.id.sunRiseSetButton:
-                temperatureLayout.setVisibility(v.INVISIBLE);
-                sunRiseSetLayout.setVisibility(v.VISIBLE);
-                windLayout.setVisibility(v.INVISIBLE);
-                break;
-            case R.id.windButton:
-                temperatureLayout.setVisibility(v.INVISIBLE);
-                sunRiseSetLayout.setVisibility(v.INVISIBLE);
-                windLayout.setVisibility(v.VISIBLE);
-                break;
-            case R.id.buttonUpdate:
-                getDataFromInternet();
-                textViewLastUpdate.setVisibility(v.INVISIBLE);
-                buttonUpdate.setVisibility(v.INVISIBLE);
-                break;
-            case R.id.buttonStatistics:
-                //TODO//
-                break;
-            default:
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.temperatureButton:
+                    temperatureLayout.setVisibility(v.VISIBLE);
+                    sunRiseSetLayout.setVisibility(v.INVISIBLE);
+                    windLayout.setVisibility(v.INVISIBLE);
+                    break;
+                case R.id.sunRiseSetButton:
+                    temperatureLayout.setVisibility(v.INVISIBLE);
+                    sunRiseSetLayout.setVisibility(v.VISIBLE);
+                    windLayout.setVisibility(v.INVISIBLE);
+                    break;
+                case R.id.windButton:
+                    temperatureLayout.setVisibility(v.INVISIBLE);
+                    sunRiseSetLayout.setVisibility(v.INVISIBLE);
+                    windLayout.setVisibility(v.VISIBLE);
+                    break;
+                case R.id.imageButtonUpdate:
+                    dateTextView.setText("Datum: " + today);
+                    textViewLastUpdate.setVisibility(v.INVISIBLE);
+                    buttonUpdate.setVisibility(v.INVISIBLE);
+                    getDataFromInternet();
+                    break;
+                case R.id.buttonStatistics:
+                    //TODO//
+                    temperatureLayout.setVisibility(v.INVISIBLE);
+                    sunRiseSetLayout.setVisibility(v.INVISIBLE);
+                    windLayout.setVisibility(v.INVISIBLE);
+                    break;
+                default:
+            }
         }
-    }
+
+
 
     private void getDataFromInternet(){
         new Thread(new Runnable() {
@@ -236,30 +244,21 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     sSunRise = sys.getString("sunrise");
                     sSunSet = sys.getString("sunset");
 
-                    temperature.setText(sTemperature + " °C");
-                    humidity.setText(/*R.string.airHumidityActivityDetails*/"Vlaznost vazduha: " + sHumidity + " %");
-                    pressure.setText("Pritisak: " + sPressure + " mb");
-
                     TimeZone tz = TimeZone.getTimeZone("GMT+2");
                     SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                     df.setTimeZone(tz);
 
                     Date sunRiseDate = new java.util.Date(Integer.parseInt(sSunRise)*1000L);
                     time = df.format(sunRiseDate);
-                    sunRise.setText("Izlazak sunca: " + time + " h");
 
                     Date sunSetDate = new java.util.Date(Integer.parseInt(sSunSet)*1000L);
                     time0 = df.format(sunSetDate);
-                    sunSet.setText("Izlazak sunca: " + time0 + " h");
 
                     try{
                         sWind = wind.getString("speed");
-                        windSpeed.setText("Brzina: "+ sWind + " m/s");
                     }catch(JSONException e) {
-                        windSpeed.setText("Brzina: 0 m/s");
                         sWind = "0";
                     }catch (Exception e){
-                        windSpeed.setText("Brzina: 0 m/s");
                         sWind = "0";
                     }
 
@@ -275,12 +274,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                         if(sWindDir > 247 || sWindDir <= 292) direction = "Zapad";
                         if(sWindDir > 292 || sWindDir <= 337) direction = "Sever-Zapad";
 
-                        windDir.setText("Pravac: " + direction);
                     }catch(JSONException e) {
-                        windDir.setText("Pravac: Nema informacija");
                         direction = "Nema informacija";
                     }catch (Exception e){
-                        windDir.setText("Pravac: Nema informacija");
                         direction = "Nema informacija";
                     }
 
@@ -290,6 +286,19 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     e.printStackTrace();
                 }
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        temperature.setText(sTemperature + " °C");
+                        humidity.setText("Vlaznost vazduha: " + sHumidity + " %");
+                        pressure.setText("Pritisak: " + sPressure + " mb");
+                        sunRise.setText("Izlazak sunca: " + time + " h");
+                        sunSet.setText("Izlazak sunca: " + time0 + " h");
+                        windSpeed.setText("Brzina: " + sWind + " m/s");
+                        windDir.setText("Pravac: " + direction);
+                    }
+                });
+/*
                 ContentValues values = new ContentValues();
                 values.put(ElementDbHelper.COLUMN_DATE, today);
                 values.put(ElementDbHelper.COLUMN_CITY, city);
@@ -301,9 +310,10 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
                 values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
 
+                mDbHelper.insert(values);
+*/
                 //ContentResolver resolver = getContentResolver();
                 //resolver.insert(ElementProvider.CONTENT_URI, values);
-                mDbHelper.insert(values);
             }
         }).start();
     }

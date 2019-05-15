@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.example.pnrs1_projekat.StatisticsActivity" />
+
         <provider
             android:name="com.example.pnrs1_projekat.ElementProvider"
             android:authorities="com.example.pnrs1_projekat"
