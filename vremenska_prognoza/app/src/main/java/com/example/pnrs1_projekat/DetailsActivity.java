@@ -219,7 +219,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 case R.id.buttonStatistics:
 
                     WeatherAttributes[] temp = mDbHelper.readWeather(city);
-                    String[] stringList = new String[21];
+                    String[] stringList = new String[22];
                     int l = weatherAttributes.length-1;
                     int j = 1;
                     for (int i=l; i>=l-6; i--){
@@ -232,7 +232,8 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                             case 2:
                                 stringList[3] = weatherAttributes[i].getTemperature();
                                 stringList[4] = weatherAttributes[i].getPressure();
-                                stringList[5] = weatherAttributes[i].getHumidity();                                break;
+                                stringList[5] = weatherAttributes[i].getHumidity();
+                                break;
                             case 3:
                                 stringList[6] = weatherAttributes[i].getTemperature();
                                 stringList[7] = weatherAttributes[i].getPressure();
@@ -263,7 +264,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                         j++;
                     }
 
-
+                    stringList[21] = city;
                     Intent intent = new Intent(getApplicationContext(),StatisticsActivity.class);
                     Bundle b = new Bundle();
                     b.putStringArray("city", stringList);
