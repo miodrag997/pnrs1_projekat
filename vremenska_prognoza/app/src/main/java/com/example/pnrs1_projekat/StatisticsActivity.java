@@ -218,21 +218,21 @@ public class StatisticsActivity extends AppCompatActivity implements View.OnClic
 
         sMinTemperature = stringList[0];
         sMaxTemperature = stringList[0];
-        sDayOfMinTemperature = weekDays[d%7 - 1];
-        sDayOfMaxTemperature = weekDays[d%7 - 1];
+        sDayOfMinTemperature = weekDays[(d-1)%7];
+        sDayOfMaxTemperature = weekDays[(d-1)%7];
 
         for (int i=3; i<21; i+=3){
             if(Double.parseDouble(stringList[i]) < Double.parseDouble(sMinTemperature)){
                 sMinTemperature = stringList[i];
-                sDayOfMinTemperature = weekDays[(i/3+d)%7 - 1];
+                sDayOfMinTemperature = weekDays[(i/3+d-1)%7];
             }else if (Double.parseDouble(stringList[i]) == Double.parseDouble(sMinTemperature))
-                sDayOfMinTemperature += "\n" + weekDays[(i/3+d)%7 - 1];
+                sDayOfMinTemperature += "\n" + weekDays[(i/3+d-1)%7];
 
             if(Double.parseDouble(stringList[i]) > Double.parseDouble(sMaxTemperature)){
                 sMaxTemperature = stringList[i];
-                sDayOfMaxTemperature = weekDays[(i/3+d)%7 - 1];
+                sDayOfMaxTemperature = weekDays[(i/3+d-1)%7];
             }else if (Double.parseDouble(stringList[i]) == Double.parseDouble(sMaxTemperature))
-                sDayOfMaxTemperature += "\n" + weekDays[(i/3+d)%7 - 1];
+                sDayOfMaxTemperature += "\n" + weekDays[(i/3+d-1)%7];
         }
         dayOfMinTemperature.setText(sDayOfMinTemperature);
         dayOfMaxTemperature.setText(sDayOfMaxTemperature);
