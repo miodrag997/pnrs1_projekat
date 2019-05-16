@@ -115,13 +115,83 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
         windDir = findViewById(R.id.windDirectionTextView);
         textViewLastUpdate = findViewById(R.id.textViewLastUpdate);
 
+
         //ContentResolver resolver = getContentResolver();
         //Cursor cursor = resolver.query(Uri.parse(ElementProvider.CONTENT_URI + "/" + city), null, ElementDbHelper.COLUMN_CITY+"=?", null,
         //        null);
         httpHelper = new HttpHelper();
 
         mDbHelper = new ElementDbHelper(this);
+/*
+        ContentValues values = new ContentValues();
 
+        values.put(ElementDbHelper.COLUMN_DATE, "11.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        values.put(ElementDbHelper.COLUMN_DATE, "12.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        values.put(ElementDbHelper.COLUMN_DATE, "13.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        values.put(ElementDbHelper.COLUMN_DATE, "14.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        values.put(ElementDbHelper.COLUMN_DATE, "15.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        values.put(ElementDbHelper.COLUMN_DATE, "16.05.2019.");
+        values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+        values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
+        values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
+        values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
+        values.put(ElementDbHelper.COLUMN_SUNRISE, time);
+        values.put(ElementDbHelper.COLUMN_SUNSET, time0);
+        values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
+        values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
+        mDbHelper.insert(values);
+        values.clear();
+        */
         try {
             weatherAttributes = mDbHelper.readWeather(city);
             WeatherAttributes temp = weatherAttributes[weatherAttributes.length - 1];
