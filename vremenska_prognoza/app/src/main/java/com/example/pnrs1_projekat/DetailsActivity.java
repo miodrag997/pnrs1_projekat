@@ -217,14 +217,57 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     getDataFromInternet();
                     break;
                 case R.id.buttonStatistics:
-                    //TODO//
-                    Intent intent = new Intent(getApplicationContext(),StatisticsActivity.class);
-                    intent.putExtra("temperatura",String.valueOf(sTemperature));
-                    intent.putExtra("grad",city);
-                    intent.putExtra("dan",today);
-                    intent.putExtra("pressure",sPressure);
-                    intent.putExtra("humidity",sHumidity);
 
+                    WeatherAttributes[] temp = mDbHelper.readWeather(city);
+                    String[] stringList = new String[21];
+                    int l = weatherAttributes.length-1;
+                    int j = 1;
+                    for (int i=l; i>=l-6; i--){
+                        switch (j) {
+                            case 1:
+                                stringList[0] = weatherAttributes[i].getTemperature();
+                                stringList[1] = weatherAttributes[i].getPressure();
+                                stringList[2] = weatherAttributes[i].getHumidity();
+                                break;
+                            case 2:
+                                stringList[3] = weatherAttributes[i].getTemperature();
+                                stringList[4] = weatherAttributes[i].getPressure();
+                                stringList[5] = weatherAttributes[i].getHumidity();                                break;
+                            case 3:
+                                stringList[6] = weatherAttributes[i].getTemperature();
+                                stringList[7] = weatherAttributes[i].getPressure();
+                                stringList[8] = weatherAttributes[i].getHumidity();
+                                break;
+                            case 4:
+                                stringList[9] = weatherAttributes[i].getTemperature();
+                                stringList[10] = weatherAttributes[i].getPressure();
+                                stringList[11] = weatherAttributes[i].getHumidity();
+                                break;
+                            case 5:
+                                stringList[12] = weatherAttributes[i].getTemperature();
+                                stringList[13] = weatherAttributes[i].getPressure();
+                                stringList[14] = weatherAttributes[i].getHumidity();
+                                break;
+                            case 6:
+                                stringList[15] = weatherAttributes[i].getTemperature();
+                                stringList[16] = weatherAttributes[i].getPressure();
+                                stringList[17] = weatherAttributes[i].getHumidity();
+                                break;
+                            case 7:
+                                stringList[18] = weatherAttributes[i].getTemperature();
+                                stringList[19] = weatherAttributes[i].getPressure();
+                                stringList[20] = weatherAttributes[i].getHumidity();
+                                break;
+                            default:
+                        }
+                        j++;
+                    }
+
+
+                    Intent intent = new Intent(getApplicationContext(),StatisticsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putStringArray("city", stringList);
+                    intent.putExtras(b);
                     startActivity(intent);
                     break;
                 default:
@@ -303,7 +346,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                         windDir.setText("Pravac: " + direction);
                     }
                 });
-/*
+
                 ContentValues values = new ContentValues();
                 values.put(ElementDbHelper.COLUMN_DATE, today);
                 values.put(ElementDbHelper.COLUMN_CITY, city);
@@ -316,7 +359,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
 
                 mDbHelper.insert(values);
-*/
+
                 //ContentResolver resolver = getContentResolver();
                 //resolver.insert(ElementProvider.CONTENT_URI, values);
             }
