@@ -1,10 +1,14 @@
 package com.example.pnrs1_projekat;
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -31,7 +35,7 @@ import java.util.TimeZone;
 
 import static android.view.View.GONE;
 
-public class DetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailsActivity extends AppCompatActivity implements View.OnClickListener, ServiceConnection {
 
     public TextView location;
     public TextView dateTextView;
@@ -46,7 +50,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     public TextView temperature, windSpeed, pressure, humidity, sunRise, sunSet, windDir;
 
     ////////HTTP//////
-    private HttpHelper httpHelper;
+    public static HttpHelper httpHelper;
     public static String GET_CITY = "https://api.openweathermap.org/data/2.5/weather?q=";
     public static String API_KEY = "&APPID=6e2c4ea501a981241b6224f707c04e49";
     public static String city = null;
@@ -61,15 +65,26 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     String today, lastUpdateDay;
     String time, time0;
 
-    private ElementDbHelper mDbHelper;
+    public static ElementDbHelper mDbHelper;
     private Cursor cursor;
     private WeatherAttributes[] weatherAttributes;
     private Bundle b;
+
+    Intent serviceIntent;
+    private BoundService mService;
+    public static boolean mBound = false;
+    private Button stopServiceButton, startServiceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        /*android servisi*/
+        startServiceButton = findViewById(R.id.startServiceButton);
+        stopServiceButton = findViewById(R.id.stopServiceButton);
+        startServiceButton.setOnClickListener(this);
+        stopServiceButton.setOnClickListener(this);
 
         /* LOKACIJA */
         location = findViewById(R.id.location);
@@ -264,6 +279,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
         @Override
         public void onClick(View v) {
+            serviceIntent = new Intent(this, BoundService.class);
             switch (v.getId()){
                 case R.id.temperatureButton:
                     temperatureLayout.setVisibility(v.VISIBLE);
@@ -285,6 +301,22 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                     textViewLastUpdate.setVisibility(v.INVISIBLE);
                     buttonUpdate.setVisibility(v.INVISIBLE);
                     getDataFromInternet();
+                    break;
+                case R.id.startServiceButton:
+                    startService(serviceIntent);
+                    if(!bindService(serviceIntent, this, Context.BIND_AUTO_CREATE)) {
+                        Log.d("Android servis", "Bind Failed!");
+                    }
+                    break;
+                case R.id.stopServiceButton:
+                    if (mService != null){
+                        Log.d("Android servis", "unbindService on button click");
+                        unbindService(this);
+                        mService = null;
+                    } else {
+                        Log.d("Android servis", "service is null");
+                    }
+                    stopService(serviceIntent);
                     break;
                 case R.id.buttonStatistics:
 
@@ -347,7 +379,7 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-    private void getDataFromInternet(){
+    public void getDataFromInternet(){
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -435,5 +467,19 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 //resolver.insert(ElementProvider.CONTENT_URI, values);
             }
         }).start();
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        if(mService == null){
+            BoundService.LocalBinder binder = (BoundService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        mBound = false;
     }
 }

@@ -802,6 +802,8 @@ id src_in
 id src_over
 id standard
 id start
+id startServiceButton
+id stopServiceButton
 id submenuarrow
 id submit_area
 id sunRiseSetButton

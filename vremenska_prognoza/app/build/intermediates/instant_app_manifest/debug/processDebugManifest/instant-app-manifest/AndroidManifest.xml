@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <service
+            android:name="com.example.pnrs1_projekat.BoundService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity android:name="com.example.pnrs1_projekat.StatisticsActivity" />
 
         <provider

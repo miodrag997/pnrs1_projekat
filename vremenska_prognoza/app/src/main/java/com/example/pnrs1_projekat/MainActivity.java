@@ -1,7 +1,12 @@
 package com.example.pnrs1_projekat;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +17,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ServiceConnection{
     private final String TAG = "main";
     Button buttonMainActivity;
     EditText myLocation;
     ListView listOfCities;
     ElementRowAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +32,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         buttonMainActivity = findViewById(R.id.buttonMainActivity);
         myLocation = (EditText) findViewById(R.id.location);
+
+
         buttonMainActivity.setOnClickListener(this);
+
 
         adapter = new ElementRowAdapter(this);
         adapter.addElement(new ElementRow("Novi Sad"));
-        adapter.addElement(new ElementRow("Belgrade"));
-        adapter.addElement(new ElementRow("Bijeljina"));
+        //adapter.addElement(new ElementRow("Belgrade"));
+        //adapter.addElement(new ElementRow("Bijeljina"));
 
         listOfCities = (ListView) findViewById(R.id.listOfCities);
         listOfCities.setAdapter(adapter);
@@ -60,6 +69,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myLocation.setHint("");
                 }
                 break;
+            case R.id.startServiceButton:
+
+                break;
+            case R.id.stopServiceButton:
+
+                break;
+                default:
         }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+
     }
 }
