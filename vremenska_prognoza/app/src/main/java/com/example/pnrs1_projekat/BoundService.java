@@ -1,12 +1,16 @@
 package com.example.pnrs1_projekat;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -25,6 +29,7 @@ public class BoundService extends Service {
     private boolean serviceActive;
     HttpHelper httpHelper;
     private String[] acceptedData = new String[9];
+    public String nTemp;
 
     public BoundService() {
     }
@@ -114,10 +119,8 @@ public class BoundService extends Service {
                         JSONObject sys = (JSONObject) jsonobject.get("sys");
                         JSONObject wind = (JSONObject) jsonobject.get("wind");
 
-                        Log.d("test", "log1");
-
-
                         sTemperature = main.getString("temp");
+                        nTemp = sTemperature;
                         sHumidity = main.getString("humidity");
                         sPressure = main.getString("pressure");
                         sSunRise = sys.getString("sunrise");
@@ -127,12 +130,11 @@ public class BoundService extends Service {
                         SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
                         df.setTimeZone(tz);
 
-                        Date sunRiseDate = new java.util.Date(Integer.parseInt(sSunRise) * 1000L);
+                        Date sunRiseDate = new Date(Integer.parseInt(sSunRise) * 1000L);
                         time = df.format(sunRiseDate);
 
-                        Date sunSetDate = new java.util.Date(Integer.parseInt(sSunSet) * 1000L);
+                        Date sunSetDate = new Date(Integer.parseInt(sSunSet) * 1000L);
                         time0 = df.format(sunSetDate);
-                        Log.d("test", "log2");
 
                         try {
                             sWind = wind.getString("speed");
@@ -141,7 +143,6 @@ public class BoundService extends Service {
                         } catch (Exception e) {
                             sWind = "0";
                         }
-                        Log.d("test", "log3");
 
                         try {
                             sWindDir = Integer.parseInt(wind.getString("deg"));
@@ -166,14 +167,13 @@ public class BoundService extends Service {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    Log.d("test", "log4");
 
                     Date date = Calendar.getInstance().getTime();
                     today = new SimpleDateFormat("dd.MM.yyyy.").format(date);
 
                     ContentValues values = new ContentValues();
                     values.put(ElementDbHelper.COLUMN_DATE, today);
-                    values.put(ElementDbHelper.COLUMN_CITY, "Belgrade");
+                    values.put(ElementDbHelper.COLUMN_CITY, "Novi Sad");
                     values.put(ElementDbHelper.COLUMN_TEMPERATURE, sTemperature);
                     values.put(ElementDbHelper.COLUMN_PREASSURE, sPressure);
                     values.put(ElementDbHelper.COLUMN_HUMIDITY, sHumidity);
@@ -181,7 +181,6 @@ public class BoundService extends Service {
                     values.put(ElementDbHelper.COLUMN_SUNSET, time0);
                     values.put(ElementDbHelper.COLUMN_WIND_SPEED, sWind);
                     values.put(ElementDbHelper.COLUMN_WIND_DIRECTION, direction);
-                    Log.d("test", "log5");
 
                     acceptedData[0] = today;
                     acceptedData[1] = "Novi Sad";
@@ -195,10 +194,28 @@ public class BoundService extends Service {
 
 
                     DetailsActivity.mDbHelper.insert(values);
-                    Log.d("test", "log6");
                 }
 
             }).start();
+            Log.d("test", "log1");
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(BoundService.this, MainActivity.CHANNEL_ID);
+            builder.setAutoCancel(true)
+                    .setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setWhen(System.currentTimeMillis())
+                    .setTicker("PantelaWeather")
+                    .setSmallIcon(R.drawable.update)
+                    .setContentTitle("Temperatura azurirana")
+                    .setContentText("Novi Sad " + nTemp + " °C")
+                    .setContentInfo("info")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            Log.d("test", "log6");
+
+            NotificationManager notificationManager = (NotificationManager) BoundService.this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            // notificationId is a unique int for each notification that you must define
+            notificationManager.notify(1, builder.build());
+
             Log.d("test", "Hello from Runnable");
             mHandler.postDelayed(this, PERIOD);
         }

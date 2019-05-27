@@ -58,17 +58,4 @@
         android:focusableInTouchMode="true"
         android:id="@+id/listOfCities" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/startServiceButton"
-        android:text="Start Service"
-        android:layout_gravity="center_horizontal"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stopServiceButton"
-        android:text="Stop Service"
-        android:layout_gravity="center_horizontal"/>
-
 </LinearLayout>
