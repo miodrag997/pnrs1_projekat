@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //zadatak6
+        MyNDK ndk = new MyNDK();
+        int res = ndk.increment(5);
+        Log.d("test", String.valueOf(res));
+
+        //zadatak5
         createNotificationChannel();
 
         buttonMainActivity = findViewById(R.id.buttonMainActivity);

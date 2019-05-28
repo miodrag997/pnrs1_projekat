@@ -75,6 +75,9 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
     public static boolean mBound = false;
     private Button stopServiceButton, startServiceButton;
 
+    //zadatak6
+    MyNDK ndk = new MyNDK();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,14 +250,20 @@ public class DetailsActivity extends AppCompatActivity implements View.OnClickLi
                 selecteditem = adapter.getItemAtPosition(i).toString();
                 if (selecteditem == "°C" && previousItem == "°F") {
                     degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length() - 3));
-                    degrees = (degrees - 32) * 5 / 9;
+
+                    degrees = ndk.convertDegrees(degrees, 0);
+                    Log.d("test", String.valueOf(degrees));
+
                     degrees = round(degrees, 2);
                     temperature.setText(String.valueOf(degrees) + " °C");
                     previousItem = "°C";
                 }
                 if (selecteditem == "°F") {
                     degrees = Double.parseDouble(temperature.getText().toString().substring(0, temperature.getText().toString().length() - 3));
-                    degrees = degrees * 9 / 5 + 32;
+
+                    degrees = ndk.convertDegrees(degrees, 1);
+                    Log.d("test", String.valueOf(degrees));
+
                     degrees = round(degrees, 2);
                     temperature.setText(String.valueOf(degrees) + " °F");
                     previousItem = "°F";
