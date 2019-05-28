@@ -1,2 +1,1 @@
-[x86] Compile        : MyLibrary <= MyJNI.c
-[x86] SharedLibrary  : libMyLibrary.so
+make: `C:/Users/student/misko/pnrs1/workspace/pnrs1_projekat/vremenska_prognoza/app/build/intermediates/ndkBuild/debug/obj/local/x86/libMyLibrary.so' is up to date.

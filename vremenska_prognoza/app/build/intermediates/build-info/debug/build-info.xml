@@ -5,31 +5,23 @@
     build-mode="COLD"
     density="420dpi"
     format="10"
-    ir-eligibility="FIELD_ADDED"
     plugin-version="3.3.2"
-    timestamp="1559070576171"
+    timestamp="1559070915684"
     token="-690219458185893923"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="369" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="96" />
+        duration="0" />
     <task
         name="verifier"
-        duration="214" />
-
-    <artifact
-        location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
-        type="SPLIT_MAIN" />
+        duration="0" />
 
     <build
         build-mode="FULL"
@@ -84,5 +76,9 @@
             location="C:\Users\student\misko\pnrs1\workspace\pnrs1_projekat\vremenska_prognoza\app\build\intermediates\instant-run-apk\debug\app-debug.apk"
             type="SPLIT_MAIN" />
     </build>
+    <build
+        build-mode="COLD"
+        timestamp="1559070915684"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>
